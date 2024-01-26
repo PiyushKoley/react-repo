@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {addTodo} from "../features/todo/todoSlice";
 
-function AddTodo() {
+function AddTodo({ todoToUpdate, setTodoToUpdate }) {
 
     const [input, setInput] = useState("");
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const dispatch = useDispatch();
+    useEffect(() => {
+        setInput(todoToUpdate?.text || "");
+        setIsUpdating(todoToUpdate===null ? false : true)
+        console.log(isUpdating);  
+    }, [todoToUpdate]);      
 
     const addTodoHandler = (e) => {
         e.preventDefault();
@@ -19,6 +25,7 @@ function AddTodo() {
 
         dispatch(addTodo(input));
         setInput("");
+        setTodoToUpdate(null);
     }
 
     return (
@@ -32,9 +39,9 @@ function AddTodo() {
             />
             <button
             type="submit"
-            className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+            className={`text-white ${isUpdating ?' bg-green-500 hover:bg-green-700' :  "bg-indigo-500 hover:bg-indigo-600"} border-0 py-2 px-6 focus:outline-none  rounded text-lg`}
             >
-            Add Todo
+            {isUpdating ? "Update Todo" : "Add Todo"}
             </button>
         </form>
     )

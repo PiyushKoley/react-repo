@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTodo,removeTodo } from '../features/todo/todoSlice';
 
-function Todo() {
+function Todo({ setTodoToUpdate }) {
 
     const todos = useSelector(state => state.todos); // accessing the data from store, with the help of useSelector...
     const dispatch = useDispatch();
@@ -17,6 +17,11 @@ function Todo() {
             key={todo.id}
           >
             <div className='text-white'>{todo.text}</div>
+            <button
+              onClick={() => setTodoToUpdate(todo)}
+              className='text-white bg-blue-500 border-0 py-1 px-4'
+            >Update</button>
+
             <button
              onClick={() => dispatch(removeTodo(todo.id))}
               className="text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded text-md"
