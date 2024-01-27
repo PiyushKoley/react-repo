@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {addTodo} from "../features/todo/todoSlice";
+import { useDispatch,useSelector } from 'react-redux';
+import {addTodo, updateTodo, removeTodoToUpdate} from "../features/todo/todoSlice";
 
-function AddTodo({ todoToUpdate, setTodoToUpdate }) {
+function AddTodo() {
 
     const [input, setInput] = useState("");
-    const [isUpdating, setIsUpdating] = useState(false);
+    const isUpdating = useSelector(state => state.isUpdating);
+    const todoToUpdate = useSelector(state => state.todoToUpdate);
 
     const dispatch = useDispatch();
+
+    
     useEffect(() => {
-        setInput(todoToUpdate?.text || "");
-        setIsUpdating(todoToUpdate===null ? false : true)
-        console.log(isUpdating);  
+        setInput(todoToUpdate?.text || ""); 
     }, [todoToUpdate]);      
 
     const addTodoHandler = (e) => {
@@ -23,9 +24,16 @@ function AddTodo({ todoToUpdate, setTodoToUpdate }) {
             return;
         }
 
-        dispatch(addTodo(input));
+        if(isUpdating ){
+            dispatch(updateTodo({...todoToUpdate, text:input}));
+            dispatch(removeTodoToUpdate());
+        }
+        else {
+            dispatch(addTodo(input));
+        }
+
+        
         setInput("");
-        setTodoToUpdate(null);
     }
 
     return (
@@ -39,7 +47,7 @@ function AddTodo({ todoToUpdate, setTodoToUpdate }) {
             />
             <button
             type="submit"
-            className={`text-white ${isUpdating ?' bg-green-500 hover:bg-green-700' :  "bg-indigo-500 hover:bg-indigo-600"} border-0 py-2 px-6 focus:outline-none  rounded text-lg`}
+            className={`text-white ${isUpdating ? "bg-green-500 hover:bg-green-700" :  "bg-indigo-500 hover:bg-indigo-600"} border-0 py-2 px-6 focus:outline-none  rounded text-lg`}
             >
             {isUpdating ? "Update Todo" : "Add Todo"}
             </button>
