@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import authService from "./appwrite/auth";
-import {login, logout} from "./store/authSlice";
-import {Header, Footer} from "./components"
+import { login, logout } from "./store/authSlice";
+import { Header, Footer } from "./components"
 import { Outlet } from "react-router-dom";
 
 
@@ -29,11 +29,11 @@ function App() {
     <>
       <div className="min-h-screen flex flex-wrap content-between bg-gray-500">
         <div className="w-full block">
-          <Header />
+          {/* <Header /> */}
           <main>
             {/* <Outlet/> */}
-           </main>
-          <Footer />
+          </main>
+          {/* <Footer /> */}
         </div>
       </div>  
     </>
