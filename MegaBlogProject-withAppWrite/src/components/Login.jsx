@@ -59,15 +59,15 @@ function Login() {
                 <div className='space-y-5'>
 
                     <Input
-                    label="Email: "
-                    placeholder="Enter your email"
-                    type="email"
-                    {...register("email",{
-                        required: true,
-                        validate : {
-                            matchPattern: (value) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value) || "Email address must be valid address."
-                        }
-                    })}
+                        label="Email: "
+                        placeholder="Enter your email"
+                        type="email"
+                        {...register("email",{
+                            required: true,
+                            validate : {
+                                matchPattern: (value) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(value) || "Email address must be valid address."
+                            }
+                        })}
                     />
 
                     <Input
