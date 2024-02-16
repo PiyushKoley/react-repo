@@ -66,15 +66,82 @@ function PostForm({post}) {
 
         return "";
     },[]);
-    const [value1, setValue1] = useState("");
 
     useEffect(() => {
-        const subscribe = watch()
+        const subscribe = watch((value, {name}) => {
+            if(name === "title") {
+                setValue("slug", slugTransform(value.title), {shouldValidate : true});
+            }
+        });
 
+        return () => {subscribe.unsubscribe()}
     },[watch, slugTransform, setValue]);
 
     return (
-        <div>PostForm</div>
+        <>
+        <form onSubmit={handleSubmit(submit)} className='flex flex-wrap'>
+            <div className='w-2/3 px-2'>
+                <Input
+                    label ="Title :"
+                    placeholder="Title"
+                    className="mb-4"
+                    {...register("title", {required: true})}
+                />
+
+                <Input
+                    label="Slug :"
+                    placeholder="slug"
+                    className="mb-4"
+                    {...register("slug",{required:true})}
+                    onInput={(e) => {
+                        setValue("slug", slugTransform(e.target.value),{shouldValidate:true});
+
+                    }}
+                />
+
+                <RTE
+                    label="Content :"
+                    name="content"
+                    control={control}
+                    defaultValue={getValues("content")}
+                />
+            </div>
+
+            <div className='w-1/3 px-2'>
+                <Input
+                    label="Featured Image :"
+                    type='file'
+                    className="mb-4"
+                    accept="image/jpg, image/jpeg, image/png, image/gif"
+                    {...register("image", {required : !post})}
+                />
+
+                {post && (
+                    <div className='w-full mb-4'>
+                        <img 
+                            src={databaseService.getFilePreview(post.featuredImage)}
+                            alt={post.title}
+                            className='rounded-lg'
+                        />
+                    </div>
+                )}
+
+                <Select
+                    options={["active", "inactive"]}
+                    label="Status"
+                    className="mb-4"
+                    {...register("status", {required:true})}
+                />
+
+                <Button
+                    type='submit'
+                    bgColor={post ? "bg-green-500" : undefined}
+                    className='w-full'
+                    children={post ? "Update" : "Submit"}
+                />
+            </div>
+        </form>
+        </>
     )
 }
 
