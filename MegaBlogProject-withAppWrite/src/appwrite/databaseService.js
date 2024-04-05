@@ -1,5 +1,5 @@
 import { Client, Databases, ID, Query, Storage } from "appwrite";
-import { conf } from "../conf/conf";
+import  conf  from "../conf/conf";
 
 
 class DatabaseService {
@@ -84,7 +84,7 @@ class DatabaseService {
     async getAllPost(queries =[ Query.equal("status","active") ] ) {
         try {
             return await this.databases.listDocuments(
-                conf.appwriteDatabaseID,
+                conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 queries
             )
