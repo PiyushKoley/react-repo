@@ -19,7 +19,7 @@ class DatabaseService {
     async createPost({title, slug, content, featuredImage, status, userId}) {
         try {
             return await this.databases.createDocument(
-                conf.appwriteDatabaseID,
+                conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 /**id  *//***ID.unique()**/ slug ,
                 /** data to save to db */ {
@@ -40,7 +40,7 @@ class DatabaseService {
     async updatePost(slug, {title, content, featuredImage, status}) {
         try {
             return await this.databases.updateDocument(
-                conf.appwriteDatabaseID,
+                conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug,
                 {
@@ -58,7 +58,7 @@ class DatabaseService {
     async deletePost(slug) {
         try {
             await this.databases.deleteDocument(
-                conf.appwriteDatabaseID,
+                conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
             )
@@ -72,7 +72,7 @@ class DatabaseService {
     async getPost(slug) {
         try {
             return await this.databases.getDocument(
-                conf.appwriteDatabaseID,
+                conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
             )
